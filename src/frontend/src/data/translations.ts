@@ -212,6 +212,38 @@ const translations: Record<string, Record<Lang, string>> = {
     te: "మీ భాషను ఎంచుకోండి / Choose your language",
   },
 
+  // Auth & OTP
+  login: { en: "Login", te: "లాగిన్" },
+  logout: { en: "Logout", te: "లాగ్అవుట్" },
+  myOrders: { en: "My Orders", te: "నా ఆర్డర్లు" },
+  enterPhone: { en: "Enter your mobile number", te: "మీ మొబైల్ నంబర్ నమోదు చేయండి" },
+  getOtp: { en: "Get OTP", te: "OTP పొందండి" },
+  enterOtp: { en: "Enter OTP", te: "OTP నమోదు చేయండి" },
+  verifyOtp: { en: "Verify OTP", te: "OTP ధృవీకరించండి" },
+  otpSentTo: { en: "OTP sent to", te: "OTP పంపబడింది" },
+  otpDemo: { en: "Demo mode – your OTP is:", te: "డెమో మోడ్ – మీ OTP:" },
+  wrongOtp: {
+    en: "Incorrect OTP. Please try again.",
+    te: "తప్పు OTP. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+  },
+  loginSuccess: { en: "Logged in successfully!", te: "విజయవంతంగా లాగిన్ అయ్యారు!" },
+  adminLogin: { en: "Admin Login", te: "అడ్మిన్ లాగిన్" },
+  loginWithCompanyNumber: {
+    en: "Login with Company Number",
+    te: "కంపెనీ నంబర్‌తో లాగిన్",
+  },
+  trackMyOrder: { en: "Track My Order", te: "నా ఆర్డర్ ట్రాక్ చేయండి" },
+  loginToViewOrders: {
+    en: "Login to view your orders",
+    te: "మీ ఆర్డర్లు చూడటానికి లాగిన్ చేయండి",
+  },
+  adminAccessRequired: { en: "Admin access required", te: "అడ్మిన్ యాక్సెస్ అవసరం" },
+  orderNotifications: { en: "Order Notifications", te: "ఆర్డర్ నోటిఫికేషన్లు" },
+  notificationsInfo: {
+    en: "All order updates are logged to Freshchoiceorg@gmail.com",
+    te: "అన్ని ఆర్డర్ అప్‌డేట్‌లు Freshchoiceorg@gmail.com కి లాగ్ చేయబడతాయి",
+  },
+
   // Product names
   "product.brown-eggs.name": { en: "Brown Eggs", te: "గోధుమ రంగు గుడ్లు" },
   "product.white-eggs.name": { en: "White Eggs", te: "తెల్లటి గుడ్లు" },

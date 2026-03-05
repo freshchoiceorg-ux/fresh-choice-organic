@@ -7,12 +7,14 @@ import {
   createRouter,
 } from "@tanstack/react-router";
 import { SplashScreen } from "./components/SplashScreen";
+import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { LanguageProvider, useLang } from "./context/LanguageContext";
 import { AdminOrdersPage } from "./pages/AdminOrdersPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { HomePage } from "./pages/HomePage";
 import { LicensesPage } from "./pages/LicensesPage";
+import { MyOrdersPage } from "./pages/MyOrdersPage";
 import { OrderConfirmationPage } from "./pages/OrderConfirmationPage";
 
 // Root Route
@@ -56,12 +58,19 @@ const licensesRoute = createRoute({
   component: LicensesPage,
 });
 
+const myOrdersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/my-orders",
+  component: MyOrdersPage,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   checkoutRoute,
   orderConfirmationRoute,
   adminOrdersRoute,
   licensesRoute,
+  myOrdersRoute,
 ]);
 
 const router = createRouter({ routeTree });
@@ -85,9 +94,11 @@ function AppInner() {
 export default function App() {
   return (
     <LanguageProvider>
-      <CartProvider>
-        <AppInner />
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <AppInner />
+        </CartProvider>
+      </AuthProvider>
     </LanguageProvider>
   );
 }

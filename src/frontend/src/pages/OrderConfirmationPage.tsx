@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle, ListOrdered, ShoppingBag } from "lucide-react";
+import { ArrowLeft, CheckCircle, MapPin, ShoppingBag } from "lucide-react";
 import { motion } from "motion/react";
+import { useState } from "react";
 import { EggCrackLoader } from "../components/EggCrackLoader";
+import { OTPLoginModal } from "../components/OTPLoginModal";
+import { useAuth } from "../context/AuthContext";
 import { useLang } from "../context/LanguageContext";
 import { t } from "../data/translations";
 import { useGetOrderById } from "../hooks/useQueries";
@@ -14,6 +17,8 @@ export function OrderConfirmationPage() {
   const { data: order, isLoading } = useGetOrderById(orderId);
   const { lang } = useLang();
   const activeLang = lang ?? "en";
+  const { isLoggedIn } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -219,15 +224,23 @@ export function OrderConfirmationPage() {
             {t("continueShopping", activeLang)}
           </Button>
           <Button
-            onClick={() => navigate({ to: "/admin/orders" })}
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate({ to: "/my-orders" });
+              } else {
+                setLoginOpen(true);
+              }
+            }}
             variant="outline"
             className="w-full h-12 rounded-2xl border-forest/30 text-forest hover:bg-forest/5 font-semibold gap-2"
           >
-            <ListOrdered className="w-4 h-4" />
-            {t("viewAllOrders", activeLang)}
+            <MapPin className="w-4 h-4" />
+            {t("trackMyOrder", activeLang)}
           </Button>
         </motion.div>
       </main>
+
+      <OTPLoginModal open={loginOpen} onOpenChange={setLoginOpen} />
     </div>
   );
 }

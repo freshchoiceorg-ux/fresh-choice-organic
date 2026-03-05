@@ -1,9 +1,22 @@
 import { useNavigate } from "@tanstack/react-router";
-import { Mail, MapPin, Phone, ShoppingCart, Star, Truck } from "lucide-react";
+import {
+  LogOut,
+  Mail,
+  MapPin,
+  Package,
+  Phone,
+  ShoppingCart,
+  Star,
+  Truck,
+  User,
+} from "lucide-react";
 import { motion } from "motion/react";
+import { useState } from "react";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 import { CartBar } from "../components/CartBar";
+import { OTPLoginModal } from "../components/OTPLoginModal";
 import { ProductCard } from "../components/ProductCard";
+import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { useLang } from "../context/LanguageContext";
 import { CATEGORIES, PRODUCTS } from "../data/products";
@@ -14,6 +27,8 @@ export function HomePage() {
   const { totalItems } = useCart();
   const { lang, setLang } = useLang();
   const activeLang = lang ?? "en";
+  const { user, logout, isLoggedIn } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const handleCheckout = () => {
     navigate({ to: "/checkout" });
@@ -81,6 +96,47 @@ export function HomePage() {
               <span>📜</span>
               {t("certifications", activeLang)}
             </button>
+
+            {/* My Orders / Login */}
+            {isLoggedIn ? (
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => navigate({ to: "/my-orders" })}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-forest/8 hover:bg-forest/12 text-forest text-xs font-medium transition-colors border border-forest/20"
+                >
+                  <Package className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">
+                    {t("myOrders", activeLang)}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={logout}
+                  title={t("logout", activeLang)}
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-secondary hover:bg-accent text-muted-foreground text-xs transition-colors"
+                >
+                  <User className="w-3 h-3" />
+                  <span className="font-mono text-xs hidden sm:inline">
+                    {user?.phone.slice(-4)}
+                  </span>
+                  <LogOut className="w-3 h-3" />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setLoginOpen(true)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-secondary hover:bg-accent text-foreground text-xs font-medium transition-colors"
+                aria-label="Login"
+              >
+                <User className="w-4 h-4 text-forest" />
+                <span className="hidden sm:inline">
+                  {t("login", activeLang)}
+                </span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={handleCheckout}
@@ -429,6 +485,9 @@ export function HomePage() {
 
       {/* Floating Cart Bar */}
       <CartBar onCheckout={handleCheckout} />
+
+      {/* OTP Login Modal */}
+      <OTPLoginModal open={loginOpen} onOpenChange={setLoginOpen} />
     </div>
   );
 }

@@ -65,6 +65,18 @@ export function usePlaceOrder() {
   });
 }
 
+export function useGetOrdersByPhone(phone: string | null) {
+  const { actor, isFetching } = useActor();
+  return useQuery<Order[]>({
+    queryKey: ["orders-by-phone", phone],
+    queryFn: async () => {
+      if (!actor || !phone) return [];
+      return actor.get_orders_by_phone(phone);
+    },
+    enabled: !!actor && !isFetching && !!phone,
+  });
+}
+
 export function useUpdateOrderStatus() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
